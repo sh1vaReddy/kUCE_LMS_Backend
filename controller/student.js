@@ -14,7 +14,7 @@ exports.CreateStudent=async(req,res)=>
                 error:"Student Alredy Exits"})
            }
 
-        const student=await Student.insertMany({
+        const student=await Student.create({
             Roll_No,
             Student_Name,
             Branch

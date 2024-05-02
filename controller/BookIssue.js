@@ -161,3 +161,35 @@ exports.BookHistory = async (req, res) => {
         console.log(error.message)
     }
   }
+
+
+  exports.Bookhistorybyrollno=async(req,res)=>{
+    const {Roll_NO}=req.body;
+    try{
+      
+
+    const Bookhistory=await BookHistory.find({ROll_No:Roll_NO})
+    if(!Bookhistory)
+    {
+        res.status(400).json({
+            sucess:true,
+        message:"No Book Are Issued"
+        })
+    }
+    else
+    {
+        res.status(200).json({
+            sucess:true,
+            Bookhistory
+        })
+    }
+  }
+  catch{
+    res.status(400).json({
+        sucess:false,
+        message:"Student Not FOund"
+    })
+  }
+
+    }
+    
