@@ -11,7 +11,6 @@ const studentSchema = new mongoose.Schema({
         ],
         minLength: [8, "Enter Correct Roll_NO"],
         maxLength: [12, "Enter Correct Roll_NO"],
-      
     },
     Student_Name: {
         type: String,

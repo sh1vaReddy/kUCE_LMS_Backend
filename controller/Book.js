@@ -72,12 +72,23 @@ exports.deletebook = async (req, res) => {
 
 exports.getsinglebook = async (req, res) => {
     try {
-        const { BookId } = req.body;
-          console.log(BookId)
-      
-        const book = await Book.findOne({ Book_ID: BookId });
+        const { searchTerm } = req.body;
 
-      
+        let book;
+        if (!isNaN(searchTerm)) {
+            
+            book = await Book.findOne({ Book_ID: searchTerm });
+        } else if (typeof searchTerm === 'string') {
+    
+            const regexSearchTerm = searchTerm.toString();
+            book = await Book.findOne({ Book_Title: { $regex: regexSearchTerm, $options: 'i' } });
+        } else {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid search term"
+            });
+        }
+
         if (!book) {
             return res.status(404).json({
                 success: false,
@@ -85,14 +96,12 @@ exports.getsinglebook = async (req, res) => {
             });
         }
 
-       
         res.status(200).json({
             success: true,
             book,
         });
 
     } catch (error) {
-        
         return res.status(500).json({ message: error.message });
     }
 }
